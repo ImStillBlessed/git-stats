@@ -1,0 +1,21 @@
+.search {
+	border: 1px solid #4b55de;
+	padding: 10px;
+	border-radius: 20px;
+	max-width: 300px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.search #login {
+	/* border: none; */
+	/* border: white; */
+	width: 100%;
+	height: 2.5rem;
+}
+#submit {
+	border: none;
+	background: #4b55de;
+	padding: 10px;
+	border-radius: 10px;
+}

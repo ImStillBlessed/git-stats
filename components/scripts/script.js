@@ -1,24 +1,68 @@
-// main javascript file that will import all the 
-// other functions and be conected direcctly to the main page
-// import { Octokit } from "octokit";
-// const { Octokit } = require('@octokit/rest')
+// import { Octokit } from '../../node_modules/octokit';
+import { Octokit } from "https://esm.sh/@octokit/rest";
 
-// const octokit = new Octokit();
+const octokit = new Octokit();
 
-// async function getBranches() {  
-//   const response = await octokit.request("GET /repos/{owner}/{repo}/commits", {
-//     owner: "ImStillBlessed",
-//     repo: "AirBnB_clone_v2",
-//     params: {
-//       per_page: 2
-//     }
-//   });
-  
-//   console.log(`Status: ${response.status}`);
-//   console.log(`Url: ${response.url}`);
-//   console.log(response.data.length);
+const displayname = document.querySelector("#username");
+const displayPicture = document.querySelector("#profilepic");
+const loginInput = document.querySelector("#login");
+const bio = document.querySelector("#bio")
+const submitButton = document.querySelector("#submit");
+
+async function getUserInfo(username) {
+  try {
+    const response = await octokit.request("GET /users/{username}", {
+      username: username
+    });
+    const data = response.data;
+    displayname.textContent = data.name;
+    displayPicture.src = data.avatar_url;
+    bio.textContent = data.bio
+
+    console.log(data.login, data.avatar_url)
+  } catch (error) {
+    console.error("Error:", error.message);
+    throw error;
+  }
+}
+
+submitButton.addEventListener("click", function() {
+  const username = loginInput.value;
+  getUserInfo(username);
+});
+
+
+
+
+// async function getUserData() {
+//   try {
+//     const data = await getUserInfo("ImStillBlessed");
+    
+//     diaplayname.textContent = data.login;
+//     displayPicture.src = data.avatar_url;
+    
+//     console.log(`the user: ${name} with username: ${username}`)
+//     console.log(data.repos_url);
+    
+//   } catch (error) {
+//     console.error('Error', error);
+//   }
 // }
-const getBranches = require('./branches')
-const response = getBranches("ImStillBlessed", "AirBnB_clone_v2");
 
-console.log(`testing: ${response.status}`)
+
+
+// async function getRepoInfo() {
+//   const owner = "ImStillBlessed"
+//   const repo = "AirBnB_clone"
+//   try {
+//     const url = `/repos/${owner}/${repo}`;
+    
+//     const data = getUserInfo("ImStillBlessed", url);
+//     console.log(data);
+//   } catch (error) {
+//     console.error('Error', error);
+//   }
+// }
+
+// getUserData();
+// getRepoInfo();
